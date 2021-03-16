@@ -11,14 +11,14 @@
 */
 #define GD_Pointer                                    0x01U
 #define GD_Mouse                                      0x02U
-                                             /* Reserved */
+/* Reserved */
 #define GD_Joystick                                   0x04U
 #define GD_Game_Pad                                   0x05U
 #define GD_Keyboard                                   0x06U
 #define GD_Keypad                                     0x07U
 #define GD_Multiaxis_Controller                       0x08U
 #define GD_Tablet_PC_Sys_Controls                     0x09U
-                                             /* Reserved */
+/* Reserved */
 #define GD_X                                          0x30U
 #define GD_Y                                          0x31U
 #define GD_Z                                          0x32U
@@ -34,7 +34,7 @@
 #define GD_Motion_Wakeup                              0x3CU
 #define GD_Start                                      0x3DU
 #define GD_Select                                     0x3EU
-                                             /* Reserved */
+/* Reserved */
 #define GD_Vx                                         0x40U
 #define GD_Vy                                         0x41U
 #define GD_Vz                                         0x42U
@@ -44,7 +44,7 @@
 #define GD_Vno                                        0x46U
 #define GD_Feature_Notification                       0x47U
 #define GD_Resolution_Multiplier                      0x48U
-                                             /* Reserved */
+/* Reserved */
 #define GD_Sys_Control                                0x80U
 #define GD_Sys_Power_Down                             0x81U
 #define GD_Sys_Sleep                                  0x82U
@@ -65,7 +65,7 @@
 #define GD_D_pad_Down                                 0x91U
 #define GD_D_pad_Right                                0x92U
 #define GD_D_pad_Left                                 0x93U
-                                             /* Reserved */
+/* Reserved */
 #define GD_Sys_Dock                                   0xA0U
 #define GD_Sys_Undock                                 0xA1U
 #define GD_Sys_Setup                                  0xA2U
@@ -75,7 +75,7 @@
 #define GD_Application_Debugger_Break                 0xA6U
 #define GD_Sys_Speaker_Mute                           0xA7U
 #define GD_Sys_Hibernate                              0xA8U
-                                             /* Reserved */
+/* Reserved */
 #define GD_Sys_Display_Invert                         0xB0U
 #define GD_Sys_Display_Internal                       0xB1U
 #define GD_Sys_Display_External                       0xB2U
@@ -84,7 +84,7 @@
 #define GD_Sys_Display_Toggle                         0xB5U
 #define GD_Sys_Display_Swap                           0xB6U
 #define GD_Sys_Display_LCD_Autoscale                  0xB7U
-                                             /* Reserved */
+/* Reserved */
 
 
 /* Usage Page: Simulation Controls Page (0x02U)
@@ -102,14 +102,14 @@
 #define SC_SimuDev_Helicopter                         0x0AU
 #define SC_SimuDev_MagicCarpet                        0x0BU
 #define SC_SimuDev_Bicycle                            0x0CU
-                                          /* Reserved */
+/* Reserved */
 #define SC_Flight_Control_Stick                       0x20U
 #define SC_Flilght_Stick                              0x21U
 #define SC_Cyclic_Control                             0x22U
 #define SC_Cyclic_Trim                                0x23U
 #define SC_Flight_Yoke                                0x24U
 #define SC_Track_Control                              0x25U
-                                          /* Reserved */
+/* Reserved */
 #define SC_Aileron                                    0xB0U
 #define SC_Aileron_Trim                               0xB1U
 #define SC_Anti_Torque_Control                        0xB2U
@@ -143,11 +143,11 @@
 #define SC_Handle_Bars                                0xCEU
 #define SC_Front_Brake                                0xCFU
 #define SC_Rear_Brake                                 0xD0U
-                                          /* Reserved */
+/* Reserved */
 
 
 /* Usage Page: VR Controls Page (0x03)
-** 
+**
 */
 #define VR_Belt                                       0x01U
 #define VR_Body_Suit                                  0x02U
@@ -159,20 +159,20 @@
 #define VR_Oculometer                                 0x08U
 #define VR_Vest                                       0x09U
 #define VR_Animatronic_Device                         0x0AU
-                                          /* Reserved */
+/* Reserved */
 #define VR_Stereo_Enable                              0x20U
 #define VR_Display_Enable                             0x21U
-                                          /* Reserved */
+/* Reserved */
 
 
 /* Usage Page: Sport Controls Page (0x04)
-** 
+**
 */
 #define SpC_Baseball_Bat				      0x01U
 #define SpC_Golf_Club					      0x02U
 #define SpC_Rowing_Machine				      0x03U
 #define SpC_Treadmill					      0x04U
-                                          /* Reserved */
+/* Reserved */
 #define SpC_Oar						      0x30U
 #define SpC_Slope						      0x31U
 #define SpC_Rate						      0x32U
@@ -183,7 +183,7 @@
 #define SpC_Stick_Tempo				            0x37U
 #define SpC_Stick_Type					      0x38U
 #define SpC_Stick_Height				      0x39U
-                                          /* Reserved */
+/* Reserved */
 #define SpC_Putter						0x50U
 #define SpC_Iron_1						0x51U
 #define SpC_Iron_2						0x52U
@@ -204,7 +204,7 @@
 #define SpC_Wood_5						0x61U
 #define SpC_Wood_7						0x62U
 #define SpC_Wood_9						0x63U
-                                          /* Reserved */
+/* Reserved */
 
 
 /* Usage Page: Game Controls Page (0x05)
@@ -212,7 +212,7 @@
 #define GC_3D_Game_Controller			            0x01U
 #define GC_Pinball_Device				      0x02U
 #define GC_Gun_Device					      0x03U
-                                          /* Reserved */
+/* Reserved */
 #define GC_Point_of_View				      0x20U
 #define GC_Turn_Right_Left				      0x21U
 #define GC_Pitch_Forward_Backward		            0x22U
@@ -237,16 +237,16 @@
 #define GC_Gun_Automatic				      0x35U
 #define GC_Gun_Safety					      0x36U
 #define GC_Gamepad_Fire_Jump			            0x37U
-                                          /* Reserved */
+/* Reserved */
 #define GC_Gamepad_Trigger				      0x39U
-                                          /* Reserved */
-                                       
+/* Reserved */
+
 
 /* Usage Page: Generic Device Controls (0x06)
 ** SC: Security Code
 */
-                                    /* 0x00 Undefined */
-                                          /* Reserved */
+/* 0x00 Undefined */
+/* Reserved */
 #define GDC_Battery_Strength			            0x20U
 #define GDC_Wireless_Channel			            0x21U
 #define GDC_Wireless_ID				            0x22U
@@ -254,7 +254,7 @@
 #define GDC_SC_Character_Entered		            0x24U
 #define GDC_SC_Character_Cleared		            0x25U
 #define GDC_SC_Cleared				            0x26U
-                                          /* Reserved */
+/* Reserved */
 
 /* Usage Page: Keyboard/Keypad (0x07)
 */
@@ -339,11 +339,11 @@
 #define LED_Generic_Indicator			            0x4BU
 #define LED_Sys_Suspend				            0x4CU
 #define LED_External_Power_Connected	            0x4DU
-                                             /* Reserved */
+/* Reserved */
 
 
 /* Usage Page: Button (0x09)
-** ID N is Button N 
+** ID N is Button N
 */
 
 /* Usage Page: Ordinal (0x0A)
@@ -359,7 +359,7 @@
 #define TD_Headset					      0x05U
 #define TD_Telephony_Key_Pad		                  0x06U
 #define TD_Programmable_Button		            0x07U
-                                             /* Reserved */
+/* Reserved */
 #define TD_Hook_Switch				            0x20U
 #define TD_Flash					            0x21U
 #define TD_Feature					      0x22U
@@ -378,18 +378,18 @@
 #define TD_Phone_Mute				            0x2FU
 #define TD_Caller_ID				            0x30U
 #define TD_Send					            0x31U
-                                             /* Reserved */
+/* Reserved */
 #define TD_Speed_Dial				            0x50U
 #define TD_Store_Number			                  0x51U
 #define TD_Recall_Number			            0x52U
 #define TD_Phone_Directory		      	      0x53U
-                                             /* Reserved */
+/* Reserved */
 #define TD_Voice_Mail		      	            0x70U
 #define TD_Screen_Calls		      	            0x71U
 #define TD_Do_Not_Disturb		      	      0x72U
 #define TD_Message			      	      0x73U
 #define TD_Answer_On_Off		      	      0x74U
-                                             /* Reserved */
+/* Reserved */
 #define TD_Inside_Dial_Tone	      	            0x90U
 #define TD_Outside_Dial_Tone	      	            0x91U
 #define TD_Inside_Ring_Tone	      	            0x92U
@@ -405,7 +405,7 @@
 #define TD_Tones_Off			      	      0x9CU
 #define TD_Outside_Ringback	      	            0x9DU
 #define TD_Ringer			      	            0x9EU
-                                             /* Reserved */
+/* Reserved */
 #define TD_Phone_Key_0                                0xB0U
 #define TD_Phone_Key_1                                0xB1U
 #define TD_Phone_Key_2                                0xB2U
@@ -422,7 +422,7 @@
 #define TD_Phone_Key_B                                0xBDU
 #define TD_Phone_Key_C                                0xBEU
 #define TD_Phone_Key_D                                0xBFU
-                                             /* Reserved */
+/* Reserved */
 
 /* Usage Page: Consumer (0x0C)
 ** App      - Application
@@ -441,11 +441,11 @@
 #define UC_Mic					            0x4U
 #define UC_Headphone					      0x5U
 #define UC_Graphic_Equalizer				      0x6U
-                                             /* Reserved */
+/* Reserved */
 #define UC_Add_10					            0x20U
 #define UC_Add_100					      0x21U
 #define UC_AM_PM					            0x22U
-                                             /* Reserved */
+/* Reserved */
 #define UC_Power					            0x30U
 #define UC_Reset					            0x31U
 #define UC_Sleep				      	      0x32U
@@ -453,7 +453,7 @@
 #define UC_Sleep_Mode					      0x34U
 #define UC_ILL					            0x35U
 #define UC_Function_Buttons				      0x36U
-                                             /* Reserved */
+/* Reserved */
 #define UC_Menu					            0x40U
 #define UC_Menu_Pick					      0x41U
 #define UC_Menu_Up					      0x42U
@@ -463,7 +463,7 @@
 #define UC_Menu_Escape					      0x46U
 #define UC_Menu_Value_Incr					0x47U
 #define UC_Menu_Value_Decr					0x48U
-                                             /* Reserved */
+/* Reserved */
 #define UC_Data_On_Screen					0x60U
 #define UC_Closed_Caption					0x61U
 #define UC_Closed_Caption_Sel				      0x62U
@@ -471,7 +471,7 @@
 #define UC_Broadcast_Mode					0x64U
 #define UC_Snapshot					      0x65U
 #define UC_Still					            0x66U
-                                             /* Reserved */
+/* Reserved */
 #define UC_Selion					            0x80U
 #define UC_Assign_Selion					0x81U
 #define UC_Mode_Step					      0x82U
@@ -503,13 +503,13 @@
 #define UC_Channel_Incr					      0x9CU
 #define UC_Channel_Decr					      0x9DU
 #define UC_Media_Sel_SAP					0x9EU
-                                             /* Reserved */
+/* Reserved */
 #define UC_VCR_Plus					      0xA0U
 #define UC_Once					            0xA1U
 #define UC_Daily					            0xA2U
 #define UC_Weekly					            0xA3U
 #define UC_Monthly					      0xA4U
-                                             /* Reserved */
+/* Reserved */
 #define UC_Play					            0xB0U
 #define UC_Pause					            0xB1U
 #define UC_Record					            0xB2U
@@ -541,7 +541,7 @@
 #define UC_Stop_Eject					      0xCCU
 #define UC_Play_Pause					      0xCDU
 #define UC_Play_Skip					      0xCEU
-                                             /* Reserved */
+/* Reserved */
 #define UC_Volume					            0xE0U
 #define UC_Balance				      	0xE1U
 #define UC_Mute				      	      0xE2U
@@ -553,14 +553,14 @@
 #define UC_MPX					            0xE8U
 #define UC_Volume_Incr					      0xE9U
 #define UC_Volume_Decr					      0xEAU
-                                             /* Reserved */
+/* Reserved */
 #define UC_Speed_Sel				      	0xF0U
 #define UC_Playback_Speed					0xF1U
 #define UC_Standard_Play					0xF2U
 #define UC_Long_Play					      0xF3U
 #define UC_Extended_Play					0xF4U
 #define UC_Slow					            0xF5U
-                                             /* Reserved */
+/* Reserved */
 #define UC_Fan_Enable					      0x100U
 #define UC_Fan_Speed					      0x101U
 #define UC_Light_Enable					      0x102U
@@ -575,14 +575,14 @@
 #define UC_Duress_Alarm					      0x10BU
 #define UC_Holdup_Alarm					      0x10CU
 #define UC_Medical_Alarm					0x10DU
-                                             /* Reserved */
+/* Reserved */
 #define UC_Balance_Right					0x150U
 #define UC_Balance_Left					      0x151U
 #define UC_Bass_Incr					      0x152U
 #define UC_Bass_Decr					      0x153U
 #define UC_Treble_Incr					      0x154U
 #define UC_Treble_Decr					      0x155U
-                                             /* Reserved */
+/* Reserved */
 #define UC_Speaker_Sys					      0x160U
 #define UC_Channel_Left					      0x161U
 #define UC_Channel_Right					0x162U
@@ -594,13 +594,13 @@
 #define UC_Channel_Low_Frequency_Enhancement          0x168U
 #define UC_Channel_Top					      0x169U
 #define UC_Channel_Unknown					0x16AU
-                                             /* Reserved */
+/* Reserved */
 #define UC_Subchannel					      0x170U
 #define UC_Subchannel_Incr					0x171U
 #define UC_Subchannel_Decr					0x172U
 #define UC_Alternate_Audio_Incr                       0x173U
 #define UC_Alternate_Audio_Decr                       0x174U
-                                             /* Reserved */
+/* Reserved */
 #define UC_App_Launch_Btns					0x180U
 #define UC_AL_Launch_Btn_Config_Tool                  0x181U
 #define UC_AL_Prog_Btn_Config                         0x182U
@@ -672,7 +672,7 @@
 #define UC_AL_Online_Activity_Browser			0x1C5U
 #define UC_AL_Research_Search_Browser			0x1C6U
 #define UC_AL_Audio_Player					0x1C7U
-                                             /* Reserved */
+/* Reserved */
 #define UC_Generic_GUI_App_Ctrls				0x200U
 #define UC_AC_New					            0x201U
 #define UC_AC_Open					      0x202U
@@ -683,14 +683,14 @@
 #define UC_AC_Save					      0x207U
 #define UC_AC_Print					      0x208U
 #define UC_AC_Properties					0x209U
-                                             /* Reserved */
+/* Reserved */
 #define UC_AC_Undo					      0x21AU
 #define UC_AC_Copy					      0x21BU
 #define UC_AC_Cut					            0x21CU
 #define UC_AC_Paste					      0x21DU
 #define UC_AC_Sel_All					      0x21EU
 #define UC_AC_Find					      0x21FU
-                                             /* Reserved */
+/* Reserved */
 #define UC_AC_Find_and_Replace				0x220U
 #define UC_AC_Search					      0x221U
 #define UC_AC_Go_To					      0x222U
@@ -816,7 +816,7 @@
 #define UC_AC_Split					      0x29AU
 #define UC_AC_Distribute_Horiz				0x29BU
 #define UC_AC_Distribute_Verti				0x29CU
-                                             /* Reserved */
+/* Reserved */
 
 
 /* Usage Page: Digitizer (0x0D)
@@ -834,11 +834,11 @@
 #define D_Armature	                              0xBU
 #define D_Multiple_Point_Digitizer	                  0xCU
 #define D_Free_Space_Wand                    	      0xDU
-                                             /* Reserved */
+/* Reserved */
 #define D_Stylus	                                    0x20U
 #define D_Puck	                                    0x21U
 #define D_Finger	                                    0x22U
-                                             /* Reserved */
+/* Reserved */
 #define D_Tip_Pressure	                              0x30U
 #define D_Barrel_Pressure	                        0x31U
 #define D_In_Range	                              0x32U
@@ -862,14 +862,14 @@
 #define D_Barrel_Switch	                              0x44U
 #define D_Eraser	                                    0x45U
 #define D_Tablet_Pick	                              0x46U
-                                             /* Reserved */
+/* Reserved */
 
 
 /* Usage Page: Alphanumeric Display (0x14)
 */
 #define AD_Alphanumeric_Display				0x1U
 #define AD_Bitmapped_Display				      0x2U
-                                             /* Reserved */
+/* Reserved */
 #define AD_Display_Attributes_Report			0x20U
 #define AD_ASCII_Character_Set				0x21U
 #define AD_Data_Read_Back				      0x22U
@@ -916,7 +916,7 @@
 #define AD_Char_Attr_Enhance				      0x4BU
 #define AD_Char_Attr_Underline				0x4CU
 #define AD_Char_Attr_Blink				      0x4DU
-                                             /* Reserved */
+/* Reserved */
 #define AD_Bitmap_Size_X				      0x80U
 #define AD_Bitmap_Size_Y				      0x81U
 #define AD_Bit_Depth_Format				      0x83U
@@ -937,13 +937,13 @@
 #define AD_Soft_Button_Offset_1				0x93U
 #define AD_Soft_Button_Offset_2				0x94U
 #define AD_Soft_Button_Report				      0x95U
-                                             /* Reserved */
+/* Reserved */
 
 
 /* Usage Page: Medical Instrument (0x40)
 */
 #define MI_Medical_Ultrasound				      0x1U
-                                             /* Reserved */
+/* Reserved */
 #define MI_VCR_Acquisition				      0x20U
 #define MI_Freeze_Thaw				            0x21U
 #define MI_Clip_Store				            0x22U
@@ -952,18 +952,18 @@
 #define MI_Save				                  0x25U
 #define MI_Print				                  0x26U
 #define MI_Microphone_Enable				      0x27U
-                                             /* Reserved */
+/* Reserved */
 #define MI_Cine				                  0x40U
 #define MI_Transmit_Power				      0x41U
 #define MI_Volume				                  0x42U
 #define MI_Focus				                  0x43U
 #define MI_Depth              				0x44U
-                                             /* Reserved */
+/* Reserved */
 #define MI_Soft_Step_Primary	      			0x60U
 #define MI_Soft_Step_Secondary				0x61U
-                                             /* Reserved */
+/* Reserved */
 #define MI_Depth_Gain_Compensation				0x70U
-                                             /* Reserved */
+/* Reserved */
 #define MI_Zoom_Select			            	0x80U
 #define MI_Zoom_Adjust        				0x81U
 #define MI_Spectral_Doppler_Mode_Select			0x82U
@@ -974,20 +974,10 @@
 #define MI_Motion_Mode_Adjust			      	0x87U
 #define MI_2D_Mode_Select				      0x88U
 #define MI_2D_Mode_Adjust				      0x89U
-                                             /* Reserved */
+/* Reserved */
 #define MI_Soft_Control_Select				0xA0U
 #define MI_Soft_Control_Adjust				0xA1U
-                                             /* Reserved */
+/* Reserved */
 
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-int8_t *ri_Usage(int32_t usagePage, int32_t usage);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif

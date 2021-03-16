@@ -9,14 +9,14 @@
 ** Short Items Header(1Byte): [7  ~  4] [3   2] [1   0] bit
 **                            [ bTag  ] [bType] [bSize]
 **        bTag: 参考hid1_11.pdf 6.2.2.1 (28页)
-**        bType: 00 - main item   Ref: 6.2.2.4 
+**        bType: 00 - main item   Ref: 6.2.2.4
 **               01 - global item Ref: 6.2.2.7
 **               10 - local item  Ref: 6.2.2.8
 **               11 - Reversed
 **        bSize: 00 - 0 Byte
 **               01 - 1 Byte
 **               10 - 2 Byte
-**               11 - 4 Byte 
+**               11 - 4 Byte
 */
 
 #define TAG_OFFSET                     (4U)
@@ -34,6 +34,8 @@
 #define Size_1B                          (1U)
 #define Size_2B                          (2U)
 #define Size_4B                          (3U)
+
+#define ri_ItemSize(sizeMask)      ((uint8_t)(sizeMask) == Size_4B?4:(uint8_t)(sizeMask))
 
 /* Short Item Type
 */
@@ -85,17 +87,17 @@
 #define Logical_Maximum(size)            (GLOBAL_ITEM|(0x02U<<TAG_OFFSET)|((uint8_t)size&SIZE_MASK))
 #define Physical_Minimum(size)           (GLOBAL_ITEM|(0x03U<<TAG_OFFSET)|((uint8_t)size&SIZE_MASK))
 #define Physical_Maximum(size)           (GLOBAL_ITEM|(0x04U<<TAG_OFFSET)|((uint8_t)size&SIZE_MASK))
-  /* Unit Exponent: |   Code   | 0x5 | 0x6 | 0x7 | 0x8 | 0x9 | 0xA | 0xB | 0xC | 0xD | 0xE | 0xF |
-  **                | Exponent |  5  |  6  |  7  | -8  | -7  | -6  | -5  | -4  | -3  | -2  | -1  |
-  */
+/* Unit Exponent: |   Code   | 0x5 | 0x6 | 0x7 | 0x8 | 0x9 | 0xA | 0xB | 0xC | 0xD | 0xE | 0xF |
+**                | Exponent |  5  |  6  |  7  | -8  | -7  | -6  | -5  | -4  | -3  | -2  | -1  |
+*/
 #define Unit_Exponent(size)              (GLOBAL_ITEM|(0x05U<<TAG_OFFSET)|((uint8_t)size&SIZE_MASK))
-  /* Unit: 按半字节(Nibble)拆分，最低位半字节声明使用的计量系统，其余每个半字节声明对应单位的指数(-7~7)
-  **  | Nibble |   0    |    1   |  2   |  3   |      4      |    5    |         6          |    7     |
-  **  | Parts  | System | Length | Mass | Time | Temperature | Current | Luminous intensity | Reversed |
-  **
-  **  | Value  | 0x0  |    0x1    |     0x2     |      0x3       |        0x4       |  Other   |
-  **  | System | None | SI Linear | SI Rotation | English Linear | English Rotation | Reversed |
-  */
+/* Unit: 按半字节(Nibble)拆分，最低位半字节声明使用的计量系统，其余每个半字节声明对应单位的指数(-7~7)
+**  | Nibble |   0    |    1   |  2   |  3   |      4      |    5    |         6          |    7     |
+**  | Parts  | System | Length | Mass | Time | Temperature | Current | Luminous intensity | Reversed |
+**
+**  | Value  | 0x0  |    0x1    |     0x2     |      0x3       |        0x4       |  Other   |
+**  | System | None | SI Linear | SI Rotation | English Linear | English Rotation | Reversed |
+*/
 #define Unit(size)                       (GLOBAL_ITEM|(0x06U<<TAG_OFFSET)|((uint8_t)size&SIZE_MASK))
 #define Report_Size(size)                (GLOBAL_ITEM|(0x07U<<TAG_OFFSET)|((uint8_t)size&SIZE_MASK))
 #define Report_ID(size)                  (GLOBAL_ITEM|(0x08U<<TAG_OFFSET)|((uint8_t)size&SIZE_MASK))
@@ -170,14 +172,14 @@
 #define LOGW        printf
 #define LOGE        printf
 
-#ifndef uint8_t
-typedef unsigned char       uint8_t;
-typedef unsigned short      uint16_t;
-typedef unsigned int        uint32_t;
-typedef char                int8_t;
-typedef short               int16_t;
-typedef int                 int32_t;
-typedef long long           int64_t;
-#endif
+//#ifndef uint8_t
+//typedef unsigned char       uint8_t;
+//typedef unsigned short      uint16_t;
+//typedef unsigned int        uint32_t;
+//typedef char                int8_t;
+//typedef short               int16_t;
+//typedef int                 int32_t;
+//typedef long long           int64_t;
+//#endif
 
 #endif //_REPORT_ITEM_H
