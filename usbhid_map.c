@@ -71,6 +71,8 @@ int usbhid_map_parse_desc(usbhid_map_ref_t * map_ref, const uint8_t * desc, cons
     // usage_page is a global field, so pass it on
     item_group.item.usage_page = usage_page;
 
+//    uint8_t ignore;
+
     // start beyond initial usage + usage_page
     uint16_t index = 4;
 
@@ -101,6 +103,8 @@ int usbhid_map_parse_desc(usbhid_map_ref_t * map_ref, const uint8_t * desc, cons
                 item_group.item.type = itemTag;
                 item_group.item.opts = itemData;
 
+//                ignore = 0;
+
                 switch(itemTag)
                 {
                     case Input(0):
@@ -111,19 +115,16 @@ int usbhid_map_parse_desc(usbhid_map_ref_t * map_ref, const uint8_t * desc, cons
                         if (item_group.report_count == 0){
                             item_group.report_count = 1;
                         }
-                        else if (item_group.report_count > 1 && item_group.usages_i == 0){
-                            for(int i = 0; i < item_group.report_count; i++){
-                                item_group.usages_i = 0;
-                            }
-                        }
                         else if (item_group.usages_i < item_group.report_count){
-                            if (item_group.usages_i == 1){
-                                for(int i = 1; i < item_group.report_count; i++){
-                                    item_group.usages[i] = item_group.usages[0];
+                            if (item_group.item.usage_min){
+                                for(int i = 0; i < item_group.report_count; i++){
+                                    item_group.usages[item_group.usages_i++] = i + item_group.item.usage_min;
                                 }
                             } else {
-                                fprintf(stderr, "not enough input items listed in group %d vs %d\n", item_group.usages_i, item_group.report_count);
-                                return EXIT_FAILURE;
+                                // item group is to be ignored
+                                break;
+//                                fprintf(stderr, "not enough input items listed in group %d vs %d\n", item_group.usages_i, item_group.report_count);
+//                                return EXIT_FAILURE;
                             }
                         }
                         final_item_count += item_group.report_count;
@@ -165,11 +166,11 @@ int usbhid_map_parse_desc(usbhid_map_ref_t * map_ref, const uint8_t * desc, cons
                         if (item_group.report_count == 0){
                             item_group.report_count = 1;
                         }
-                        else if (item_group.report_count > 1 && item_group.usages_i == 0){
-                            for(int i = 0; i < item_group.report_count; i++){
-                                item_group.usages_i = 0;
-                            }
-                        }
+//                        else if (item_group.report_count > 1 && item_group.usages_i == 0){
+//                            for(int i = 0; i < item_group.report_count; i++){
+//                                item_group.usages_i = 0;
+//                            }
+//                        }
                         else if (item_group.usages_i < item_group.report_count){
                             if (item_group.usages_i == 1){
                                 for(int i = 1; i < item_group.report_count; i++){
@@ -201,6 +202,7 @@ int usbhid_map_parse_desc(usbhid_map_ref_t * map_ref, const uint8_t * desc, cons
 
                 // reset internal counters
                 item_group.usages_i = 0;
+                memset(item_group.usages, 0, sizeof(item_group.usages));
                 item_group.report_count = 0;
 
                 // reset local items
@@ -394,7 +396,7 @@ int usbhid_map_parse_desc(usbhid_map_ref_t * map_ref, const uint8_t * desc, cons
 }
 
 
-size_t usbhid_map_get_report_ids(usbhid_map_ref_t map_ref, uint8_t type, uint8_t *list)
+size_t usbhid_map_get_report_ids(usbhid_map_ref_t map_ref, const uint8_t type, uint8_t *list)
 {
     assert(map_ref != NULL);
     assert(list != NULL);
@@ -408,13 +410,32 @@ size_t usbhid_map_get_report_ids(usbhid_map_ref_t map_ref, uint8_t type, uint8_t
 
     for(int i = 0; i < icount; i++, item++){
         if (type == item->type && last_report_id != item->report_id){
-            list[rcount++] = last_report_id = item->report_id;
+//            printf("report id = %d\n", item->report_id);
+            last_report_id = item->report_id;
+            list[rcount++] = item->report_id;
         }
     }
 
     assert(rcount == map_ref->report_count);
 
     return rcount;
+}
+
+size_t usbhid_map_get_report_item_count(usbhid_map_ref_t map_ref, const uint8_t type, uint8_t report_id)
+{
+
+    struct usbhid_map_item_st * item = map_ref->items;
+    size_t icount = map_ref->item_count;
+
+    size_t result = 0;
+
+    for(int i = 0; i < icount; i++, item++){
+        if ((type == 0 || type == item->type) && item->report_id == report_id){
+            result++;
+        }
+    }
+
+    return result;
 }
 
 struct usbhid_map_item_st * usbhid_map_get_item(
@@ -429,10 +450,15 @@ struct usbhid_map_item_st * usbhid_map_get_item(
     assert(map_ref != NULL);
     assert(after == NULL || map_ref->items <= after);
 
-    struct usbhid_map_item_st * item = after ? after : map_ref->items;
+    struct usbhid_map_item_st * item = after ? after+1 : map_ref->items;
     size_t count = map_ref->item_count - ((after - map_ref->items) / sizeof(struct usbhid_map_item_st));
     for(;count--; item++){
-        if (item->type == type && item->report_id == report_id && item->usage_page == usage_page && item->usage == usage){
+        if (
+            (type == 0 || item->type == type) &&
+            (report_id == 0 || item->report_id == report_id) &&
+            (usage_page == 0 || item->usage_page == usage_page) &&
+            (usage == 0 || item->usage == usage)
+        ){
             return item;
         }
     }
@@ -454,6 +480,7 @@ int usbhid_map_extract_values(int32_t *values, struct usbhid_map_item_st *items[
         uint8_t byte = items[i]->report_offset / 8;
         uint8_t byte_end = byte + items[i]->report_size / 8;
 
+//        printf("byte %d end %d\n", byte, byte_end);
         assert(byte_end < rsize);
 
         uint8_t bit = items[i]->report_offset % 8;

@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "usbhid_map.h"
 
-
+// ID 046d:c215 Logitech Inc. Logitech Extreme 3D
 const uint8_t desc[] = {
         0x05, 0x01,        // Usage Page (Generic Desktop Ctrls)
         0x09, 0x04,        // Usage (Joystick)
@@ -74,17 +75,75 @@ const size_t len = sizeof(desc);
 #define REPORT_SIZE 7
 
 const uint8_t reports[] = {
+
+        // x, y
+
         0, 0, 0, 0, 0, 0, 0,
         0xff, 0b11000000, 0, 0, 0, 0, 0,
         0, 0b111111, 0b11110000, 0, 0, 0, 0,
         0xff, 0xff, 0b11110000, 0, 0, 0, 0,
+
+        // hat switch
+
+        0, 0, 0x1, 0,0,0,0,
+        0, 0, 0x2, 0,0,0,0,
+        0, 0, 0x4, 0,0,0,0,
+        0, 0, 0x4, 0,0,0,0,
+        0, 0, 0x8, 0,0,0,0,
+        0, 0, 0xf, 0,0,0,0,
+
+        // rz
+
+        0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 1, 0, 0, 0,
+        0, 0, 0, 0xf, 0, 0, 0,
+        0, 0, 0, 0x7f, 0, 0, 0,
+        0, 0, 0, 0x80, 0, 0, 0,
+        0, 0, 0, 0xff, 0, 0, 0,
+
+        // slider
+
+        0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 1, 0,
+        0, 0, 0, 0, 0, 4, 0,
+        0, 0, 0, 0, 0, 8, 0,
+        0, 0, 0, 0, 0, 0x10, 0,
+        0, 0, 0, 0, 0, 0x80, 0,
+        0, 0, 0, 0, 0, 0xff, 0,
+
+        // buttons
+
+        0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0b10000000, 0, 0,
+        0, 0, 0, 0, 0b01000000, 0, 0,
+        0, 0, 0, 0, 0b00100000, 0, 0,
+        0, 0, 0, 0, 0b00010000, 0, 0,
+        0, 0, 0, 0, 0b00001000, 0, 0,
+        0, 0, 0, 0, 0b00000100, 0, 0,
+        0, 0, 0, 0, 0b00000010, 0, 0,
+        0, 0, 0, 0, 0b00000001, 0, 0,
+        0, 0, 0, 0, 0b01010101, 0, 0,
+        0, 0, 0, 0, 0b10101010, 0, 0,
+        0, 0, 0, 0, 0, 0, 0b10000000,
+        0, 0, 0, 0, 0, 0, 0b01000000,
+        0, 0, 0, 0, 0, 0, 0b00100000,
+        0, 0, 0, 0, 0, 0, 0b00010000,
+        0, 0, 0, 0, 0, 0, 0b00001000,
+        0, 0, 0, 0, 0, 0, 0b00000100,
+        0, 0, 0, 0, 0, 0, 0b00000010,
+        0, 0, 0, 0, 0, 0, 0b00000001,
+        0, 0, 0, 0, 0, 0, 0b00010001,
+        0, 0, 0, 0, 0, 0, 0b00100010,
+        0, 0, 0, 0, 0, 0, 0b01000100,
+        0, 0, 0, 0, 0, 0, 0b10001000,
+
 
         //// REAL DATA
 
         0, 0, 0, 0, 0, 0, 0,
 
         // center
-        0x00, 0x02, 0x88, 0x80, 0x00, 0xff, 0x00,
+        0x08, 0x02, 0x88, 0x80, 0x00, 0x00, 0x00,
 
         0, 0, 0, 0, 0, 0, 0,
 
@@ -128,6 +187,38 @@ const uint8_t reports[] = {
         // center (rx right)
         0x00, 0xf2, 0x87, 0xff, 0x00, 0xff, 0x00,
 
+        0, 0, 0, 0, 0, 0, 0,
+
+        // slider
+        0x00, 0x22, 0x88, 0x80, 0x00, 0x00, 0x00,
+        0x00, 0x22, 0x88, 0x80, 0x00, 0xb4, 0x00,
+        0x00, 0x22, 0x88, 0x80, 0x00, 0xff, 0x00,
+
+        0, 0, 0, 0, 0, 0, 0,
+
+        // buttons
+        0x00, 0x22, 0x88, 0x80, 0x00, 0x00, 0x01,
+        0x00, 0x22, 0x88, 0x80, 0x00, 0x00, 0x02,
+        0x00, 0x22, 0x88, 0x80, 0x00, 0x00, 0x04,
+        0x00, 0x22, 0x88, 0x80, 0x00, 0x00, 0x08,
+        0x00, 0x22, 0x88, 0x80, 0x01, 0x00, 0x00,
+        0x00, 0x22, 0x88, 0x80, 0x10, 0x00, 0x00,
+        0x00, 0x22, 0x88, 0x80, 0x04, 0x00, 0x00,
+        0x00, 0x22, 0x88, 0x80, 0x08, 0x00, 0x00,
+        0x00, 0x22, 0x88, 0x80, 0x20, 0x00, 0x00,
+
+        0, 0, 0, 0, 0, 0, 0,
+
+        // hat
+
+        0x08, 0xf2, 0x17, 0x80, 0x00, 0x00, 0x00,
+        0x08, 0xf2, 0x27, 0x80, 0x00, 0x00, 0x00,
+        0x08, 0xf2, 0x37, 0x80, 0x00, 0x00, 0x00,
+        0x08, 0xf2, 0x47, 0x80, 0x00, 0x00, 0x00,
+        0x08, 0xf2, 0x57, 0x80, 0x00, 0x00, 0x00,
+        0x08, 0xf2, 0x67, 0x80, 0x00, 0x00, 0x00,
+        0x08, 0xf2, 0x77, 0x80, 0x00, 0x00, 0x00,
+        0x08, 0xf2, 0x07, 0x80, 0x00, 0x00, 0x00,
 
 };
 
@@ -147,50 +238,120 @@ int main(int argc, char * argv[])
     printf("Usage: %d\n", map_ref->usage);
     printf("Report count: %d\n", map_ref->report_count);
 
-    struct usbhid_map_item_st * x = usbhid_map_get_item(map_ref, Input(0), 0, UP_Generic_Desktop, GD_X, NULL);
-    struct usbhid_map_item_st * y = usbhid_map_get_item(map_ref, Input(0), 0, UP_Generic_Desktop, GD_Y, NULL);
-
     uint8_t report_id_list[8];
+
+    memset(report_id_list, 0, sizeof(report_id_list));
 
     assert(sizeof(report_id_list) >= map_ref->report_count);
 
-    size_t r = usbhid_map_get_report_ids(map_ref, Input(0), report_id_list);
+    size_t rid_count = usbhid_map_get_report_ids(map_ref, Input(0), report_id_list);
 
-    if (r == 0){
+    if (rid_count == 0){
         fprintf(stderr,"No input reports!\n");
         usbhid_map_free(map_ref);
         return EXIT_FAILURE;
     }
+    printf("Input reports: %zu [", rid_count);
+    for(int i = 0; i < rid_count; i++){
+        printf("%d%s", report_id_list[i], i+1 < rid_count ? ", " : "");
+    }
+    printf("]\n");
+
+    for(int r = 0; r < rid_count; r++){
+        size_t ic = usbhid_map_get_report_item_count(map_ref, Input(0), report_id_list[r]);
+        printf("Report %d item count: %zu\n", r, ic);
+
+        struct usbhid_map_item_st * last = NULL;
+        for(int i = 0; i < ic; i++){
+//            printf("i %d ic %d  \n", i, ic);
+            struct usbhid_map_item_st * item = usbhid_map_get_item(map_ref, Input(0), report_id_list[r], 0, 0, last);
+
+            assert(item);
+
+            printf(" report_id %d usage_page %02x usage %02x \n", report_id_list[r], item->usage_page, item->usage);
+
+            last = item;
+        }
+    }
+
+//    return 0;
+
+    struct usbhid_map_item_st * x = usbhid_map_get_item(map_ref, Input(0), 0, UP_Generic_Desktop, GD_X, NULL);
+    struct usbhid_map_item_st * y = usbhid_map_get_item(map_ref, Input(0), 0, UP_Generic_Desktop, GD_Y, NULL);
+    struct usbhid_map_item_st * hat_switch = usbhid_map_get_item(map_ref, Input(0), 0, UP_Generic_Desktop, GD_Hat_Switch, NULL);
+    struct usbhid_map_item_st * rz = usbhid_map_get_item(map_ref, Input(0), 0, UP_Generic_Desktop, GD_Rz, NULL);
+    struct usbhid_map_item_st * slider = usbhid_map_get_item(map_ref, Input(0), 0, UP_Generic_Desktop, GD_Slider, NULL);
+    struct usbhid_map_item_st * buttons[16];
+
+    memset(buttons, 0, sizeof(buttons));
+
+    for (int i = 0; i < 12; i++ ){
+        buttons[i] = usbhid_map_get_item(map_ref, Input(0), 0, UP_Button, i+1, NULL);
+    }
+
+
 
     if (map_ref->usage_page == UP_Generic_Desktop && map_ref->usage == GD_Joystick){
         printf("is Joystick! :)\n");
 
-        printf("has x ? %s", x ? "yes, " : "no\n");
+
+
+        int32_t values[21];
+        char * str[21];
+        struct usbhid_map_item_st * items[21];
+
+        size_t icount = 0;
+
         if (x){
-            printf("report %d bitoffset %d size %d\n", x->report_id, x->report_offset, x->report_size);
+            printf("x:  bitoffset %d size %d\n", x->report_offset, x->report_size);
+            str[icount] = "x = %d  ";
+            items[icount++] = x;
         }
-
-        printf("has y ? %s", y ? "yes, " : "no\n");
         if (y){
-            printf("report %d bitoffset %d size %d\n", y->report_id, y->report_offset, y->report_size);
+            printf("y: bitoffset %d size %d\n", y->report_offset, y->report_size);
+            str[icount] = "y = %d  ";
+            items[icount++] = y;
         }
-
-        if (x && y){
-
-            int32_t values[2];
-            struct usbhid_map_item_st * items[2] = {x,y};
-
-            for (int i = 0; i < report_count; i++){
-
-
-                usbhid_map_extract_values(values, items, 2, &reports[i*REPORT_SIZE], REPORT_SIZE);
-
-                for (int j = 0; j < REPORT_SIZE; j++){
-                    printf("%02x ", reports[i*REPORT_SIZE + j]);
-                }
-                printf("\t x / y \t %d\t %d\n", values[0], values[1]);
+        if (hat_switch){
+            printf("hat switch: bitoffset %d size %d\n", hat_switch->report_offset, hat_switch->report_size);
+            str[icount] = "Hat Switch = %d  ";
+            items[icount++] = hat_switch;
+        }
+        if (rz){
+            printf("rz: bitoffset %d size %d\n", rz->report_offset, rz->report_size);
+            str[icount] = "Rz = %d  ";
+            items[icount++] = rz;
+        }
+        if (slider){
+            printf("slider: bitoffset %d size %d\n", slider->report_offset, slider->report_size);
+            str[icount] = "Slider = %d  ";
+            items[icount++] = slider;
+        }
+        for (int i = 0; i < 16; i++){
+            if (buttons[i]){
+                printf("button[%d]: bitoffset %d size %d\n", i, buttons[i]->report_offset, buttons[i]->report_size);
+                str[icount] = "%d";
+                items[icount++] = buttons[i];
             }
         }
+
+        for (int i = 0; i < report_count; i++){
+
+
+            usbhid_map_extract_values(values, items, icount, &reports[i*REPORT_SIZE], REPORT_SIZE);
+
+            for (int j = 0; j < REPORT_SIZE; j++){
+                printf("%02x ", reports[i*REPORT_SIZE + j]);
+            }
+            printf("   ");
+
+            for(int v = 0; v < icount; v++){
+                printf(str[v], values[v]);
+            }
+
+            printf("\n");
+        }
+
     }
 
 
