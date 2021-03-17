@@ -264,13 +264,23 @@ int main(int argc, char * argv[])
         struct usbhid_map_item_st * last = NULL;
         for(int i = 0; i < ic; i++){
 //            printf("i %d ic %d  \n", i, ic);
-            struct usbhid_map_item_st * item = usbhid_map_get_item(map_ref, Input(0), report_id_list[r], 0, 0, last);
+            struct usbhid_map_item_st * item = NULL;
+            uint8_t usage_page = 0;
+            uint8_t usage = 0;
+//            do {
+                item = usbhid_map_get_item(map_ref, Input(0), report_id_list[r], usage_page, usage, last);
 
-            assert(item);
+                if (item){
+                    usage_page = item->usage_page;
+                    usage = item->usage;
+                    printf(" report_id %d usage_page %02x usage %02x \n", report_id_list[r], item->usage_page, item->usage);
+                }
 
-            printf(" report_id %d usage_page %02x usage %02x \n", report_id_list[r], item->usage_page, item->usage);
+                last = item;
+//            } while(item);
 
-            last = item;
+
+
         }
     }
 
@@ -281,12 +291,14 @@ int main(int argc, char * argv[])
     struct usbhid_map_item_st * hat_switch = usbhid_map_get_item(map_ref, Input(0), 0, UP_Generic_Desktop, GD_Hat_Switch, NULL);
     struct usbhid_map_item_st * rz = usbhid_map_get_item(map_ref, Input(0), 0, UP_Generic_Desktop, GD_Rz, NULL);
     struct usbhid_map_item_st * slider = usbhid_map_get_item(map_ref, Input(0), 0, UP_Generic_Desktop, GD_Slider, NULL);
-    struct usbhid_map_item_st * buttons[16];
+
+    #define NBUTTONS 17 // well there are only 16, but let's see wether the logic below works
+    struct usbhid_map_item_st * buttons[NBUTTONS];
 
     memset(buttons, 0, sizeof(buttons));
 
-    for (int i = 0; i < 12; i++ ){
-        buttons[i] = usbhid_map_get_item(map_ref, Input(0), 0, UP_Button, i+1, NULL);
+    for (int i = 0; i < NBUTTONS && (i == 0 || buttons[i-1]); i++ ){
+        buttons[i] = usbhid_map_get_item(map_ref, Input(0), 0, UP_Button, 0, i == 0 ? NULL : buttons[i-1]);
     }
 
 

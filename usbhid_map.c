@@ -117,9 +117,15 @@ int usbhid_map_parse_desc(usbhid_map_ref_t * map_ref, const uint8_t * desc, cons
                         }
                         else if (item_group.usages_i < item_group.report_count){
                             if (item_group.item.usage_min){
+//                                if (item_gro)
                                 for(int i = 0; i < item_group.report_count; i++){
                                     item_group.usages[item_group.usages_i++] = i + item_group.item.usage_min;
                                 }
+//                            } else if () {
+//                                printf("is array\n");
+//                                for(int i = 0; i < item_group.report_count; i++){
+//                                    item_group.usages[item_group.usages_i++] = i;
+//                                }
                             } else {
                                 // item group is to be ignored
                                 break;
@@ -207,8 +213,31 @@ int usbhid_map_parse_desc(usbhid_map_ref_t * map_ref, const uint8_t * desc, cons
 
                 // reset local items
                 item_group.item.usage = 0;
-                item_group.item.usage_min = 0;
-                item_group.item.usage_max = 0;
+                // hmm, in my joystick data, there is a well-defined variable four button field with usage min
+                // followed directly by a 4 size array and without any additional modifiers (ie no usage_min)
+                // the proper macos system outputs the latters usages using the former usages, like so:
+
+//                        0x95, 0x04,        //     Report Count (4)
+//                        0x75, 0x01,        //     Report Size (1)
+//                        0x25, 0x01,        //     Logical Maximum (1)
+//                        0x45, 0x01,        //     Physical Maximum (1)
+//                        0x05, 0x09,        //     Usage Page (Button)
+//                        0x19, 0x09,        //     Usage Minimum (0x09)
+//                        0x29, 0x0C,        //     Usage Maximum (0x0C)
+//                        0x81, 0x02,        //     Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+//                        0x95, 0x04,        //     Report Count (4)
+//                        0x81, 0x01,        //     Input (Const,Array,Abs,No Wrap,Linear,Preferred State,No Null Position)
+                // but this contradicts the HID spec page 50:
+//                - While Local items do not carry over to the next Main item, they may apply to more than one control
+//                within a single item. For example, if an Input item defining five controls is preceded by three Usage
+//                tags, the three usages would be assigned sequentially to the first three controls, and the third usage
+//                would also be assigned to the fourth and fifth controls. If an item has no controls (Report Count = 0),
+//                the Local item tags apply to the Main item (usually a collection item).
+//                - To assign unique usages to every control in a single Main item, simply specify each Usage tag
+//                sequentially (or use Usage Minimum or Usage Maximum).
+
+//                item_group.item.usage_min = 0;
+//                item_group.item.usage_max = 0;
                 item_group.item.designator_index = 0;
                 item_group.item.designator_min = 0;
                 item_group.item.designator_max = 0;
@@ -451,7 +480,8 @@ struct usbhid_map_item_st * usbhid_map_get_item(
     assert(after == NULL || map_ref->items <= after);
 
     struct usbhid_map_item_st * item = after ? after+1 : map_ref->items;
-    size_t count = map_ref->item_count - ((after - map_ref->items) / sizeof(struct usbhid_map_item_st));
+    size_t count = map_ref->item_count - ((after ? after - map_ref->items : 0) / sizeof(struct usbhid_map_item_st));
+//    printf("count = %d\n", count);
     for(;count--; item++){
         if (
             (type == 0 || item->type == type) &&
