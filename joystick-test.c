@@ -244,7 +244,7 @@ int main(int argc, char * argv[])
 
     assert(sizeof(report_id_list) >= map_ref->report_count);
 
-    size_t rid_count = usbhid_map_get_report_ids(map_ref, Input(0), report_id_list);
+    size_t rid_count = usbhid_map_get_report_ids(map_ref, Input(0), report_id_list, sizeof(report_id_list));
 
     if (rid_count == 0){
         fprintf(stderr,"No input reports!\n");
@@ -273,7 +273,7 @@ int main(int argc, char * argv[])
                 if (item){
                     usage_page = item->usage_page;
                     usage = item->usage;
-                    printf(" report_id %d usage_page %02x usage %02x \n", report_id_list[r], item->usage_page, item->usage);
+                    printf(" report_id %d usage_page 0x%02x usage 0x%02x \n", report_id_list[r], item->usage_page, item->usage);
                 }
 
                 last = item;

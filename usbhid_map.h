@@ -79,8 +79,9 @@ int usbhid_map_parse_desc(usbhid_map_ref_t *map_ref, const uint8_t *desc, const 
 
 void usbhid_map_free(usbhid_map_ref_t map_ref);
 
-size_t usbhid_map_get_report_ids(usbhid_map_ref_t map_ref, const uint8_t type, uint8_t *list);
+size_t usbhid_map_get_report_ids(usbhid_map_ref_t map_ref, const uint8_t type, uint8_t *list, size_t count);
 size_t usbhid_map_get_report_item_count(usbhid_map_ref_t map_ref, const uint8_t type, uint8_t report_id);
+size_t usbhid_map_get_report_size(usbhid_map_ref_t map_ref, const uint8_t type, uint8_t report_id);
 
 struct usbhid_map_item_st *usbhid_map_get_item(
         usbhid_map_ref_t map_ref,

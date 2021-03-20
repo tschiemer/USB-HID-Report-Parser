@@ -425,7 +425,7 @@ int usbhid_map_parse_desc(usbhid_map_ref_t * map_ref, const uint8_t * desc, cons
 }
 
 
-size_t usbhid_map_get_report_ids(usbhid_map_ref_t map_ref, const uint8_t type, uint8_t *list)
+size_t usbhid_map_get_report_ids(usbhid_map_ref_t map_ref, const uint8_t type, uint8_t *list, size_t count)
 {
     assert(map_ref != NULL);
     assert(list != NULL);
@@ -437,15 +437,17 @@ size_t usbhid_map_get_report_ids(usbhid_map_ref_t map_ref, const uint8_t type, u
 
     size_t rcount = 0;
 
-    for(int i = 0; i < icount; i++, item++){
+    for(size_t i = 0; i < icount && count; i++, item++){
         if (type == item->type && last_report_id != item->report_id){
 //            printf("report id = %d\n", item->report_id);
             last_report_id = item->report_id;
             list[rcount++] = item->report_id;
+
+            count--;
         }
     }
 
-    assert(rcount == map_ref->report_count);
+//    assert(rcount == map_ref->report_count);
 
     return rcount;
 }
@@ -463,6 +465,24 @@ size_t usbhid_map_get_report_item_count(usbhid_map_ref_t map_ref, const uint8_t 
             result++;
         }
     }
+
+    return result;
+}
+
+size_t usbhid_map_get_report_size(usbhid_map_ref_t map_ref, const uint8_t type, uint8_t report_id)
+{
+    struct usbhid_map_item_st * item = map_ref->items;
+    size_t icount = map_ref->item_count;
+
+    size_t result = 0;
+
+    for(size_t i = 0; i < icount; i++, item++){
+        if ((type == item->type) && item->report_id == report_id){
+            result = item->report_offset + item->report_size;
+        }
+    }
+
+    result = (result / 8) + (result % 8 ? 1 : 0);
 
     return result;
 }
@@ -508,7 +528,7 @@ int usbhid_map_extract_values(int32_t *values, struct usbhid_map_item_st *items[
     // for all items
     for(int i = 0; i < icount; i++){
         uint8_t byte = items[i]->report_offset / 8;
-        uint8_t byte_end = byte + items[i]->report_size / 8;
+        uint8_t byte_end = (byte + items[i]->report_size - 1) / 8;
 
 //        printf("byte %d end %d\n", byte, byte_end);
         assert(byte_end < rsize);
