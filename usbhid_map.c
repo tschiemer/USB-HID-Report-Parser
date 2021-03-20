@@ -536,17 +536,14 @@ int usbhid_map_extract_values(int32_t *values, struct usbhid_map_item_st *items[
         uint8_t bit = items[i]->report_offset % 8;
         uint8_t nbits = items[i]->report_size;
 
-//        printf("bit %d nbits %d\n", bit, nbits);
+//        printf("byte %d bit %d nbits %d\n", byte, bit, nbits);
 
-        int32_t v = ntohl(*(int32_t*)&report[byte]);
-        v = ((v >> (32 - bit - nbits)) & ~(~0 << nbits));
+        int32_t v = *(int32_t*)&report[byte];
+        v = (v >> bit) & ~(~0 << nbits);
 
         values[i] = v;
 
 //        printf("byte %d bit %d nbits %d val %d\n", byte, bit, nbits, v);
-
-
-
     }
 
     return EXIT_SUCCESS;
