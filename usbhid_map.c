@@ -118,7 +118,7 @@ int usbhid_map_parse_desc(usbhid_map_ref_t * map_ref, const uint8_t * desc, cons
                         else if (item_group.usages_i < item_group.report_count){
                             if (item_group.item.usage_min){
 //                                if (item_gro)
-                                for(int i = 0; i < item_group.report_count; i++){
+                                for(uint8_t i = 0; i < item_group.report_count; i++){
                                     item_group.usages[item_group.usages_i++] = i + item_group.item.usage_min;
                                 }
 //                            } else if () {
@@ -142,6 +142,7 @@ int usbhid_map_parse_desc(usbhid_map_ref_t * map_ref, const uint8_t * desc, cons
                             fprintf(stderr, "too small ITEM_GROUP_MAX_FINAL\n");
                             return EXIT_FAILURE;
                         }
+                        //TODO actually properly implement this (input seems to be working)
                         if (item_group.report_count == 0){
                             item_group.report_count = 1;
                         }
@@ -169,6 +170,7 @@ int usbhid_map_parse_desc(usbhid_map_ref_t * map_ref, const uint8_t * desc, cons
                             fprintf(stderr, "too small ITEM_GROUP_MAX_FINAL\n");
                             return EXIT_FAILURE;
                         }
+                        //TODO actually properly implement this (input seems to be working)
                         if (item_group.report_count == 0){
                             item_group.report_count = 1;
                         }
@@ -179,7 +181,7 @@ int usbhid_map_parse_desc(usbhid_map_ref_t * map_ref, const uint8_t * desc, cons
 //                        }
                         else if (item_group.usages_i < item_group.report_count){
                             if (item_group.usages_i == 1){
-                                for(int i = 1; i < item_group.report_count; i++){
+                                for(uint8_t i = 1; i < item_group.report_count; i++){
                                     item_group.usages[i] = item_group.usages[0];
                                 }
                             } else {
@@ -396,8 +398,8 @@ int usbhid_map_parse_desc(usbhid_map_ref_t * map_ref, const uint8_t * desc, cons
     int32_t current_report = -1;
     uint32_t report_bit_offset = 0;
 
-    for(int g = 0, i = 0; g < fgi; g++){
-        for(int j = 0; j < final_groups[g].report_count; j++, i++){
+    for(uint8_t g = 0, i = 0; g < fgi; g++){
+        for(uint8_t j = 0; j < final_groups[g].report_count; j++, i++){
 
             memcpy(&mr->items[i], &final_groups[g].item, sizeof(struct usbhid_map_item_st));
 
@@ -460,7 +462,7 @@ size_t usbhid_map_get_report_item_count(usbhid_map_ref_t map_ref, const uint8_t 
 
     size_t result = 0;
 
-    for(int i = 0; i < icount; i++, item++){
+    for(size_t i = 0; i < icount; i++, item++){
         if ((type == 0 || type == item->type) && item->report_id == report_id){
             result++;
         }
@@ -526,7 +528,7 @@ int usbhid_map_extract_values(int32_t *values, struct usbhid_map_item_st *items[
     assert(rsize > 0);
 
     // for all items
-    for(int i = 0; i < icount; i++){
+    for(size_t i = 0; i < icount; i++){
         uint8_t byte = items[i]->report_offset / 8;
         uint8_t byte_end = (byte + items[i]->report_size - 1) / 8;
 
@@ -538,7 +540,7 @@ int usbhid_map_extract_values(int32_t *values, struct usbhid_map_item_st *items[
 
 //        printf("byte %d bit %d nbits %d\n", byte, bit, nbits);
 
-        int32_t v = *(int32_t*)&report[byte];
+        int32_t v = report[byte] | (report[byte+1] << 8) | (report[byte+2] << 16) | (report[byte+3] << 24);
         v = (v >> bit) & ~(~0 << nbits);
 
         values[i] = v;
